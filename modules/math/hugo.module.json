@@ -1,0 +1,11 @@
+{
+	"id": "math",
+	"description": "Hugo can add, subtract, multiply, and divide numbers, as well as find exponents.",
+	"intents": {
+		"add": ["what is (first#) plus (second#)", "add (first#) plus (second#)"],
+		"subtract": ["what is (first#) minus (second#)", "subtract (second#) from (first#)"],
+		"multiply": ["what is (first#) times (second#)", "multiply (first#) by (second#)"],
+		"divide": ["what is (first#) divided by (second#)", "divide (first#) by (second#)"],
+		"exp": ["what is (first#) to the (second#) power"]
+	}
+}

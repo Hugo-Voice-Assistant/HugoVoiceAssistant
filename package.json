@@ -1,0 +1,23 @@
+{
+  "name": "hugo",
+  "version": "1.0.0",
+  "description": "A Node.js-powered, modular, offline voice assistant.",
+  "main": "index.js",
+  "scripts": {
+    "generate-intents": "node scripts/generate-intents.js"
+  },
+  "keywords": [
+    "assistant",
+    "voice"
+  ],
+  "author": "Charles Bob-Omb#4695 (Discord)",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "core-js": "^3.30.1",
+    "dotenv": "^16.0.3",
+    "mic": "^2.1.2",
+    "speaker": "^0.5.4",
+    "vosk": "^0.3.39",
+    "words-to-numbers": "^1.5.1"
+  }
+}

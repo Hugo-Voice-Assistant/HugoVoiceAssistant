@@ -1,0 +1,4 @@
+node_modules
+.env
+core/speech-recognition/vosk-model
+core/intents/intents.json

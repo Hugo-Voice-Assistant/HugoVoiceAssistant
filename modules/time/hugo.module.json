@@ -1,0 +1,8 @@
+{
+	"id": "time",
+	"description": "Hugo can tell you the time and date.",
+	"intents": {
+		"time": ["what time is it", "tell me the time"],
+		"date": ["what is the date", "what is today"]
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"id": "say",
+	"description": "Hugo will say whatever you tell him to",
+	"intents": {
+		"say": [
+			"say (phrase)"
+		]
+	}
+}
