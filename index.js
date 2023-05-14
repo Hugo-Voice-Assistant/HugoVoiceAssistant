@@ -8,6 +8,9 @@ const intentCheck = require("./core/intents")
 const modulePath = join(__dirname, "modules")
 const sound = require("./core/sounds")
 
+const { platform } = require("os")
+const macOS = platform() == "darwin"
+
 class HugoAssistant {
 	constructor(){
 		this.recognizer = require("./core/speech-recognition")
@@ -56,7 +59,7 @@ class HugoAssistant {
 	}
 	say(text){
 		this.recognizer.pause()
-		execFileSync("espeak", ["-v", "gmw/en-GB-scotland", text]);
+		execFileSync(macOS ? "say" : "espeak", [text]);
 		this.recognizer.resume()
 	}
 }
