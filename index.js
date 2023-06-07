@@ -11,10 +11,16 @@ const sound = require("./core/sounds")
 const { platform } = require("os")
 const macOS = platform() == "darwin"
 
+const hasInternet = require("internet-available")
+const internetSettings = {
+	timeout: 1000,
+	domainName: "github.com"
+}
+
 class HugoAssistant {
 	constructor(){
 		this.recognizer = require("./core/speech-recognition")
-		this.intents = {}, this.modules = []
+		this.modules = new Map()
 		for (let module of readdirSync(modulePath)){
 			const path = join(modulePath, module) // Module folder
 
@@ -25,13 +31,7 @@ class HugoAssistant {
 			if (this.modules[header.id]) { console.warn(`[Warning] Duplicate module for id '${header.id}'.`); continue }
 			if (!header.intents && !header.modes) { console.warn(`[Warning] Module '${header.id}' contains no intents or modes (malformed hugo.module.json?)`); continue }
 
-			this.modules[header.id] = {}
-			this.modules.push(header.id)
-			for (let intent of Object.keys(header.intents || {})){
-				if (!index[intent]) throw new Error(`missing intent function '${intent}' in module '${header.id}'`)
-				if (this.intents[intent]) { console.warn(`[Warning] duplicate intent specified in module '${header.id}' (${intent})`)}
-				this.intents[intent] = index[intent]
-			}
+			this.modules.set(header, index)
 		}
 		console.log("Hugo is now listening!")
 		this.handle()
@@ -53,7 +53,15 @@ class HugoAssistant {
 				process.exit()
 			}
 			sound.play(sound.Sounds.RECOGNIZED).then(async () => {
-				await this.intents[intent.intent](this, intent.data)
+				let h;
+				for (let header of this.modules.keys()){
+					if (header.intents[intent.intent]){
+						h = header
+						break;
+					}
+				}
+				if (!await this.hasInternet() && h.requiresInternet) return this.say("Sorry, this command needs internet to run.")
+				await this.modules.get(h)[intent.intent](this, intent.data)
 			})
 		}
 	}
@@ -61,6 +69,15 @@ class HugoAssistant {
 		this.recognizer.pause()
 		execFileSync(macOS ? "say" : "espeak", [text]);
 		this.recognizer.resume()
+	}
+	async hasInternet(){
+		try {
+			await hasInternet(internetSettings)
+			return true
+		} catch(e) {
+			console.error(e)
+			return false
+		}
 	}
 }
 
