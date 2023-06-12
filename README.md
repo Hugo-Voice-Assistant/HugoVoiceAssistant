@@ -20,8 +20,9 @@ Hugo is a Node.js-powered, modular voice assistant, with an easy way to add new 
 
 4. [Windows/Linux] Install `espeak-ng` (for text-to-speech) from [this repository](https://github.com/espeak-ng/espeak-ng/blob/master/docs/guide.md#installation)
 
-5. Setup intents:
+5. Install NPM dependencies and generate intents:
     ```sh
+    npm install
     npm run generate-intents
     ```
 
