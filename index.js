@@ -38,7 +38,7 @@ class HugoAssistant {
 	}
 	async handle(){
 		while (true){
-			if (await this.recognizer.listen() !== process.env.WAKE_WORD) continue
+			if (await this.recognizer.listen() !== (process.env.WAKE_WORD || "hugo")) continue
 			await sound.play(sound.Sounds.LISTENING)
 
 			const heard = await this.recognizer.listen()
